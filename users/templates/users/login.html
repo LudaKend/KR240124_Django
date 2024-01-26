@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="row text-start">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Авторизация</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <!--{% if user.is_active == False %}
+                        <div class="mb-3">
+                            <label for="verification_key">Ключ</label>
+                            <input type="text" name="verification_key" class="form-control" id="verification_key" placeholder="Ключ подтвеждения" required>
+                        </div>
+                        {% endif %}-->
+                    <input type="submit" value="ВОЙТИ">
+                    {#<a class="p-2 btn btn-outline-danger" href="{% url 'users:route_reset_password' %}">Забыли пароль?</a>#}
+                    </form>
+                </div>
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ message }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
