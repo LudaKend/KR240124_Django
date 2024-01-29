@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('mailing.urls', namespace='mailing')),
     path('users/', include('users.urls', namespace='users')),
     path('client/', include('client.urls', namespace='client')),
+    path('blog/', include('blog.urls', namespace='blog')),
 ]

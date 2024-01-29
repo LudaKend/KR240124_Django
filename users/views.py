@@ -6,15 +6,17 @@ from users.forms import UserRegisterForm, UserLoginForm
 
 
 class RegisterView(CreateView):
-    '''контроллер для регистрации пользователя-спаммера'''
+    '''контроллер для регистрации пользователей'''
     model = User
     form_class = UserRegisterForm
+    extra_context = {'name_page': 'Регистрация пользователей'}
 
 
 class UserLoginView(LoginView):
-    '''контроллер, чтобы залогиниться пользователю-спаммеру'''
+    '''контроллер, чтобы залогиниться пользователю'''
     model = User
     form_class = UserLoginForm
+    extra_context = {'name_page': 'Вход пользователей'}
 
 class UserListView(ListView):
     '''класс-контроллер для просмотра списка пользователей-спаммеров, работающий с шаблоном user_list.html'''
