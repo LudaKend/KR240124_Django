@@ -1,6 +1,4 @@
 from django.db import models
-
-from django.db import models
 from users.models import User
 
 NULLABLE = {'null': True, 'blank': True}
@@ -8,16 +6,16 @@ NULLABLE = {'null': True, 'blank': True}
 
 class Mailing(models.Model):
     '''класс-модель для рассылок'''
-    user_email = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='email автора рассылки')
     subject = models.CharField(max_length=100, verbose_name='Тема письма')
     mailing_text = models.TextField(verbose_name='Текст письма', **NULLABLE)
+    user_email = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='email автора рассылки', **NULLABLE)
     time = models.TimeField(verbose_name='время отправки', **NULLABLE)
     period = models.ForeignKey('Period', on_delete=models.CASCADE, verbose_name='периодичность', **NULLABLE)
     status = models.ForeignKey('StatusMailing', on_delete=models.CASCADE, verbose_name='статус', default=0)
 
     def __str__(self):
         '''строковое отображение обьекта'''
-        return f'{self.subject}, {self.email}, {self.time}, {self.period}, {self.status}'
+        return f'{self.subject}, {self.user_email}, {self.time}, {self.period}, {self.status}'
 
     class Meta:
         verbose_name = 'Рассылка'

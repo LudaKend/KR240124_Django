@@ -7,7 +7,7 @@ class Client(models.Model):
     '''класс-модель для получателей рассылок'''
     client_name = models.CharField(max_length=100, verbose_name='Имя клиента')
     client_email = models.EmailField(verbose_name='email клиента', **NULLABLE)
-    user_email = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='email автора расслыки', **NULLABLE)
+    user_email = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='email пользователя-спаммера', **NULLABLE)
     is_active = models.BooleanField(verbose_name='действителен', default=True)
 
 

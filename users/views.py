@@ -3,13 +3,14 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from users.models import User
 from django.contrib.auth.views import LoginView
 from users.forms import UserRegisterForm, UserLoginForm
-
+from django.urls import reverse_lazy
 
 class RegisterView(CreateView):
     '''контроллер для регистрации пользователей'''
     model = User
     form_class = UserRegisterForm
     extra_context = {'name_page': 'Регистрация пользователей'}
+    success_url = reverse_lazy('users:route_login_users')
 
 
 class UserLoginView(LoginView):
@@ -17,6 +18,7 @@ class UserLoginView(LoginView):
     model = User
     form_class = UserLoginForm
     extra_context = {'name_page': 'Вход пользователей'}
+
 
 class UserListView(ListView):
     '''класс-контроллер для просмотра списка пользователей-спаммеров, работающий с шаблоном user_list.html'''
