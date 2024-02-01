@@ -13,13 +13,14 @@
     {% if user.is_authenticated %}
         <a>текущий пользователь</a>
         {{ user.email }}
-    {% endif %}
+
     <nav class="ms-5">
         <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:route_mailing_list' %}">Рассылки</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'client:route_client_list' %}">Клиенты</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:route_users_list' %}">Пользователи-спаммеры</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'blog:route_post_list' %}"> Блог </a>
     </nav>
+    {% endif %}
     <nav class="ms-5 px-md-4">
         {% if user.is_authenticated %}
         <a class="p-2 btn btn-outline-success float-right" href="{% url 'users:route_logout_users' %}">Выйти</a>

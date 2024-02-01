@@ -3,6 +3,7 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from mailing.models import Mailing
 from mailing.forms import MailingForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index_home_page(requests):
     context = {
@@ -11,7 +12,7 @@ def index_home_page(requests):
     return render(requests, 'mailing/home_page.html', context)
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     '''класс-контроллер для создания рассылки,работающий с шаблоном mailing_form.html'''
     model = Mailing
     extra_context = {'name_page': 'Создание рассылки'}
@@ -32,19 +33,19 @@ class MailingCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     '''класс-контроллер для просмотра списка рассылок, работающий с шаблоном mailing_list.html'''
     model = Mailing
     extra_context = {'name_page': 'Список рассылок'}
 
 
-class MailingDetailView(DetailView):
+class MailingDetailView(LoginRequiredMixin, DetailView):
     '''класс-контроллер для просмотра рассылки, работающий с шаблоном mailing_detail.html'''
     model = Mailing
     extra_context = {'name_page': 'Карточка рассылки'}
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, UpdateView):
     '''класс-контроллер для изменения рассылки,работающий с шаблоном mailing_form.html'''
     model = Mailing
     extra_context = {'name_page': 'Изменение рассылки'}
@@ -55,7 +56,7 @@ class MailingUpdateView(UpdateView):
         return reverse_lazy('mailing:route_mailing_view', args=[self.kwargs.get('pk')])
 
 
-class MailingDeleteView(DeleteView):
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
     '''класс-контроллер для удаления рассылки,работающий с шаблоном mailing_confirm_delete.html'''
     model = Mailing
     extra_context = {'name_page': 'Удаление рассылки'}
