@@ -3,14 +3,15 @@ from django.views.generic import CreateView, ListView, DetailView, UpdateView, D
 from client.models import Client
 from client.forms import ClientForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-class ClientCreateView(LoginRequiredMixin, CreateView):
+class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     '''класс-контроллер для создания клиента,работающий с шаблоном client_form.html'''
     model = Client
     extra_context = {'name_page': 'Создание клиента'}
     form_class = ClientForm
     success_url = reverse_lazy('client:route_client_list')
+    permission_required = 'client.add_client'
 
     def get_object(self, queryset=None):
         '''метод,чтобы взять email пользователя, который залогинился'''
@@ -23,30 +24,32 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
-class ClientListView(LoginRequiredMixin, ListView):
+class ClientListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     '''класс-контроллер для просмотра списка клиентов, работающий с шаблоном client_list.html'''
     model = Client
     extra_context = {'name_page': 'Список клиентов'}
+    permission_required = 'client.view_client'
 
-
-class ClientDetailView(LoginRequiredMixin, DetailView):
+class ClientDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     '''класс-контроллер для просмотра клиента, работающий с шаблоном client_detail.html'''
     model = Client
     extra_context = {'name_page': 'Карточка клиента'}
+    permission_required = 'client.view_client'
 
-
-class ClientUpdateView(LoginRequiredMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     '''класс-контроллер для изменения клиента,работающий с шаблоном client_form.html'''
     model = Client
     extra_context = {'name_page': 'Изменение клиента'}
     form_class = ClientForm
+    permission_required = 'client.change_client'
 
     def get_success_url(self):
         return reverse_lazy('client:route_client_view', args=[self.kwargs.get('pk')])
 
 
-class ClientDeleteView(LoginRequiredMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     '''класс-контроллер для удаления клиента,работающий с шаблоном client_confirm_delete.html'''
     model = Client
     extra_context = {'name_page': 'Удаление клиента'}
     success_url = reverse_lazy('client:route_client_list')
+    permission_required = 'client.delete_client'
