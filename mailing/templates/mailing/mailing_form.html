@@ -6,7 +6,6 @@
 </head>
 <body>
 <form method="POST">
-
 <div class="container">
     <div class="col-6">
         <div class="card-header">
@@ -20,22 +19,24 @@
         <div class="card-body">
             <div class="mb-3">
                 <label for="subject">Тема рассылки</label>
-                <textarea name="subject" class="form-control" id="subject" required>{{ object.subject }} </textarea>
+                <textarea type="text" name="subject" class="form-control" id="subject" required>{{ object.subject }} </textarea>
             </div>
-            <!--<label for="time">Время рассылки</label>
-            <textarea name="time" class="form-control" id="time"
+            <label for="time">Время рассылки</label>
+            <textarea type="text" name="time" class="form-control" id="time"
                           required>{{ object.time }}</textarea>
             <label for="period">Периодичность рассылки</label>
-            <textarea name="period" class="form-control" id="period"
+            <textarea type="text" name="period" class="form-control" id="period"
                           required>{{ object.period }}</textarea>
             <label for="status">Статус рассылки</label>
-            <textarea name="status" class="form-control" id="status"
+            <textarea type="text" name="status" class="form-control" id="status"
                           required>{{ object.status }}</textarea>
             <label for="mailing_text">Текст рассылки</label>
-            <textarea name="mailing_text" class="form-control" id="mailing_text"
-                          required>{{ object.mailing_text }}</textarea>-->
+            <textarea type="text" name="mailing_text" class="form-control" id="mailing_text"
+                          required>{{ object.mailing_text }}</textarea>
+            <label for="user_email">email автора рассылки</label>
+            <textarea type="text" name="user_email" class="form-control" id="user_email"
+                          required>{{ object.user_email }}</textarea>
             <p></p>
-
             <button type = 'submit'>Сохранить</button>
             <button type = 'submit'>Отмена</button>
         </div>

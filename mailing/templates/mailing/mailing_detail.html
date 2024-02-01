@@ -17,19 +17,14 @@
     <div class="card-body">
         <div class="mb-3">
             <label for="time">Время рассылки</label>
-            <textarea type="text" name="time" class="form-control" id="time"
-                          required>{{ object.time }}</textarea>
+            <textarea type="text" name="time" class="form-control" id="time" required>{{ object.time }} </textarea>
             <label for="period">Периодичность рассылки</label>
-            <textarea type="text" name="period" class="form-control" id="period"
-                          required>{{ object.period }}</textarea>
+            <textarea type="text" name="period" class="form-control" id="period" required>{{ object.period }} </textarea>
             <label for="status">Статус рассылки</label>
-            <textarea type="text" name="status" class="form-control" id="status"
-                          required>{{ object.status }}</textarea>
+            <textarea type="text" name="status" class="form-control" id="status" required>{{ object.status }} </textarea>
             <label for="mailing_text">Текст рассылки</label>
-            <textarea type="text" name="mailing_text" class="form-control" id="mailing_text"
-                          required>{{ object.mailing_text }}</textarea>
+            <textarea type="text" name="mailing_text" class="form-control" id="mailing_text" required>{{ object.mailing_text }} </textarea>
         </div>
-
         <a href="{% url 'mailing:route_mailing_update' object.pk %}" class="p-2 btn btn-outline-danger">Изменить</a>
         <a href="{% url 'mailing:route_mailing_delete' object.pk %}" class="p-2 btn btn-outline-danger">Удалить</a>
     </div>

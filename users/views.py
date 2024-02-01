@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from users.models import User
 from django.contrib.auth.views import LoginView
-from users.forms import UserRegisterForm, UserLoginForm
+from users.forms import UserRegisterForm, UserLoginForm, UserForm
 from django.urls import reverse_lazy
 
 class RegisterView(CreateView):
@@ -36,10 +36,13 @@ class UserUpdateView(UpdateView):
     '''класс-контроллер для изменения пользователя-спаммера,работающий с шаблоном user_form.html'''
     model = User
     extra_context = {'name_page': 'Изменение пользователя-спаммера'}
+    form_class = UserForm
 
+    def get_success_url(self):
+        return reverse_lazy('users:route_users_view', args=[self.kwargs.get('pk')])
 
 class UserDeleteView(DeleteView):
     '''класс-контроллер для удаления пользователя-спаммера,работающий с шаблоном user_confirm_delete.html'''
     model = User
     extra_context = {'name_page': 'Удаление пользователя-спаммера'}
-
+    success_url = reverse_lazy('users:route_users_list')

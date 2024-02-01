@@ -24,9 +24,9 @@ class MailingCreateView(CreateView):
 
     def form_valid(self, form):
         '''метод чтобы записать email автора рассылки'''
-        self.object = form.save()  #сначала нужно сохранить
-        temp_user = self.get_object()
-        print(temp_user)
+        self.object = form.save()        #сначала нужно сохранить
+        # temp_user = self.get_object()         #для отладки
+        # print(temp_user)
         self.object.user_email = self.get_object()  #записываю текущего пользователя в качестве автора
         self.object.save()
         return super().form_valid(form)
@@ -49,7 +49,7 @@ class MailingUpdateView(UpdateView):
     model = Mailing
     extra_context = {'name_page': 'Изменение рассылки'}
     form_class = MailingForm
-    success_url = reverse_lazy('mailing:route_mailing_list')
+    #success_url = reverse_lazy('mailing:route_mailing_list')
 
     def get_success_url(self):
         return reverse_lazy('mailing:route_mailing_view', args=[self.kwargs.get('pk')])
