@@ -30,5 +30,16 @@
         <a class="p-2 btn btn-outline-success" href="{% url 'users:route_register_users' %}">Регистрация</a>
     </nav>
 </div>
+<h5 class="display-8">Количество рассылок {{ quantity_mailing }}</h5>
+<h5 class="display-8">Количество активных рассылок {{ quantity_active_mailing }}</h5>
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
+    <h1 class="display-8">Новости нашего блога</h1>
+</div>
+<div class="container">
+    {% for object in object_list %}
+    <h3 class="display-3">Тема {{ object.head }}</h3>
+    <h3 class="display-3">Содержание {{ object.content }}</h3>
+    {% endfor %}
+</div>
 </body>
 </html>
