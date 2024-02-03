@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from client.models import Client
 from client.forms import ClientForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import Http404
 
 class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     '''класс-контроллер для создания клиента,работающий с шаблоном client_form.html'''
@@ -24,17 +25,6 @@ class ClientCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
-class ClientListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    '''класс-контроллер для просмотра списка клиентов, работающий с шаблоном client_list.html'''
-    model = Client
-    extra_context = {'name_page': 'Список клиентов'}
-    permission_required = 'client.view_client'
-
-class ClientDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    '''класс-контроллер для просмотра клиента, работающий с шаблоном client_detail.html'''
-    model = Client
-    extra_context = {'name_page': 'Карточка клиента'}
-    permission_required = 'client.view_client'
 
 class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     '''класс-контроллер для изменения клиента,работающий с шаблоном client_form.html'''
@@ -43,8 +33,48 @@ class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = ClientForm
     permission_required = 'client.change_client'
 
+    def get_object(self, queryset=None):
+        '''изменять клиента можно только автору'''
+        self.object = super().get_object(queryset)
+        print(f'это self.object {self.object}')  # для отладки
+        # сначала надо проверить, если пользователь является модератором, то ему можно изменить 3 поля
+        user = self.request.user  # беру текущего юзера, который залогинился
+        print(f'это self.request.user {user}')  # для отладки
+        if self.object.user_email != self.request.user:
+            raise Http404('Изменения доступны только автору')
+        return self.object
+
     def get_success_url(self):
         return reverse_lazy('client:route_client_view', args=[self.kwargs.get('pk')])
+
+
+class ClientListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    '''класс-контроллер для просмотра списка клиентов, работающий с шаблоном client_list.html'''
+    model = Client
+    extra_context = {'name_page': 'Список клиентов'}
+    permission_required = 'client.view_client'
+
+    def get_object(self, queryset=None):
+        '''метод,чтобы взять email пользователя, который залогинился'''
+        return self.request.user
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(user_email=self.get_object())
+        return queryset
+
+class ClientDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    '''класс-контроллер для просмотра клиента, работающий с шаблоном client_detail.html'''
+    model = Client
+    extra_context = {'name_page': 'Карточка клиента'}
+    permission_required = 'client.view_client'
+
+    def get_object(self, queryset=None):
+        '''просматривать клиента можно только автору'''
+        self.object = super().get_object(queryset)
+        if self.object.user_email != self.request.user:
+            raise Http404('Просмотр данных о клиенте доступен только автору')
+        return self.object
 
 
 class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -53,3 +83,10 @@ class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     extra_context = {'name_page': 'Удаление клиента'}
     success_url = reverse_lazy('client:route_client_list')
     permission_required = 'client.delete_client'
+
+    def get_object(self, queryset=None):
+        '''удалить клиента можно только автору'''
+        self.object = super().get_object(queryset)
+        if self.object.user_email != self.request.user:
+            raise Http404('Изменения доступны только автору')
+        return self.object

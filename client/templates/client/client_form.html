@@ -32,7 +32,7 @@
                           required>{{ object.is_active }}</textarea>
             <p></p>
             <button type = 'submit'>Сохранить</button>
-            <button type = 'submit'>Отмена</button>
+            <a href="{% url 'client:route_client_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
         </div>
     </div>
 </div>

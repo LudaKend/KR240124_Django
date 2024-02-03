@@ -13,6 +13,12 @@ class RegisterView(CreateView):
     extra_context = {'name_page': 'Регистрация пользователей'}
     success_url = reverse_lazy('users:route_login_users')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        # нужно при регистрации пользователю присвоить группу пономочий spammer
+        self.object.groups.add(1)  # в таблице users_user_group есть только id, поэтому так
+        return super().form_valid(form)
+
 
 class UserLoginView(LoginView):
     '''контроллер, чтобы залогиниться пользователю'''

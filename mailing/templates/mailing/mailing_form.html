@@ -38,7 +38,7 @@
                           required>{{ object.user_email }}</textarea>
             <p></p>
             <button type = 'submit'>Сохранить</button>
-            <button type = 'submit'>Отмена</button>
+            <a href="{% url 'mailing:route_mailing_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
         </div>
     </div>
 </div>

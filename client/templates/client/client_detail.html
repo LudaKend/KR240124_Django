@@ -25,6 +25,8 @@
             <textarea type="text" name="client_email" class="form-control" id="client_email" required>{{ object.client_email }} </textarea>
             <label for="is_active">Статус клиента</label>
             <textarea type="text" name="is_active" class="form-control" id="is_active" required>{{ object.is_active }} </textarea>
+            <label for="user_email">автор</label>
+            <textarea type="bool" name="user_email" class="form-control" id="user_email" required>{{ object.user_email }}</textarea>
         </div>
         <a href="{% url 'client:route_client_update' object.pk %}" class="p-2 btn btn-outline-danger">Изменить</a>
         <a href="{% url 'client:route_client_delete' object.pk %}" class="p-2 btn btn-outline-danger">Удалить</a>
