@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
+    <h1 class="display-8">{{name_page}}</h1>
+</div>
+<form method="POST">
+<div class="container">
+    <div class="col-6">
+        <div class="card-header">
+            <h3 class="card-title">Карточка пользователя</h3>
+            {% if user.is_authenticated %}
+            <a>текущий пользователь</a>
+            {{ user.email }}
+            {% endif %}
+        </div>
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="mb-3">
+                <label for="email">email пользователя</label>
+                <textarea type="text" name="email" class="form-control" id="email" required>{{ object.email }} </textarea>
+            </div>
+            <label for="company">Фирма пользователя</label>
+            <textarea type="company" name="client_email" class="form-control" id="company"
+                          required>{{ object.company }}</textarea>
+            <label for="phone">Телефон пользователя</label>
+            <textarea type="phone" name="phone" class="form-control" id="phone"
+                          required>{{ object.phone }}</textarea>
+            <label for="is_active">активирован</label>
+            <textarea type="bool" name="is_active" class="form-control" id="is_active"
+                          required>{{ object.is_active }}</textarea>
+            <p></p>
+            <button type = 'submit'>Сохранить</button>
+            <a href="{% url 'users:route_users_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
+        </div>
+    </div>
+</div>
+
+</form>
+</body>
+</html>

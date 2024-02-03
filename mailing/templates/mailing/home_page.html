@@ -5,17 +5,22 @@
     <title>Title</title>
 </head>
 <body>
-
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
+    <h1 class="display-8">{{name_page}}</h1>
+</div>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Управление рассылками </h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal">Управление рассылками - Главная страница </h5>
+    {% if user.is_authenticated %}
+        <a>текущий пользователь</a>
+        {{ user.email }}
+
     <nav class="ms-5">
-        {#<a class="p-2 btn btn-outline-primary" href="/catalog/">Каталог</a>#}
-        {#<a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>#}
-        {#<a class="p-2 btn btn-outline-primary" href="blog/"> Блог </a>#}
-        {#<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:route_product_list' %}">Каталог</a>#}
-        {#<a class="p-2 btn btn-outline-primary" href="{% url 'catalog:route_contacts' %}">Контакты</a>#}
-        {#<a class="p-2 btn btn-outline-primary" href="{% url 'blog:route_blog_post_list' %}">Блог</a>#}
+        <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:route_mailing_list' %}">Рассылки</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'client:route_client_list' %}">Клиенты</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'users:route_users_list' %}">Пользователи-спаммеры</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'blog:route_post_list' %}"> Блог </a>
     </nav>
+    {% endif %}
     <nav class="ms-5 px-md-4">
         {% if user.is_authenticated %}
         <a class="p-2 btn btn-outline-success float-right" href="{% url 'users:route_logout_users' %}">Выйти</a>
