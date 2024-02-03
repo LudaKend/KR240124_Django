@@ -12,6 +12,8 @@ class Mailing(models.Model):
     time = models.TimeField(verbose_name='время отправки', **NULLABLE)
     period = models.ForeignKey('Period', on_delete=models.CASCADE, verbose_name='периодичность', **NULLABLE)
     status = models.ForeignKey('StatusMailing', on_delete=models.CASCADE, verbose_name='статус', default=0)
+    data_create = models.DateField(verbose_name='дата создания', auto_now_add=True, **NULLABLE)
+    data_change = models.DateField(verbose_name='дата изменения', auto_now=True, **NULLABLE)
 
     def __str__(self):
         '''строковое отображение обьекта'''
@@ -20,6 +22,7 @@ class Mailing(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
+        ordering = ['-data_create', '-data_change']
 
 
 class Period(models.Model):

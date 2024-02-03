@@ -35,8 +35,16 @@
                 <div class="card-body">
                     <div class="card-header" height="300">
                     <h4 class="my-0 font-weight-normal">{{object.status }}</h4>
+                    <h4 class="my-0 font-weight-normal">{{object.period }}</h4>
+                    <h4 class="my-0 font-weight-normal">{{object.data_change }}</h4>
                 </div>
+                {% if user.is_staff %}
+                    {% if object.status_id == 2 %}
+                    <a href="{% url 'mailing:route_mailing_stop' object.pk %}" class="p-2 btn btn-outline-primary">Отключить</a>
+                    {% endif %}
+                {% else %}
                 <a href="{% url 'mailing:route_mailing_view' object.pk %}" class="p-2 btn btn-outline-primary">Посмотреть</a>
+                {% endif %}
                 </div>
             </div>
         </div>

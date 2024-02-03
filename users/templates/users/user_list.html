@@ -37,6 +37,13 @@
                     <h4 class="my-0 font-weight-normal">{{object.company }}</h4>
                 </div>
                 <a href="{% url 'users:route_users_view' object.pk %}" class="p-2 btn btn-outline-primary">Посмотреть</a>
+                {% if user.is_staff %}
+                    {% if object.is_active %}
+                    <a href="{% url 'users:route_deactivate' object.pk %}" class="p-2 btn btn-outline-primary">Деактивировать</a>
+                    {% else %}
+                    <a href="{% url 'users:route_deactivate' object.pk %}" class="p-2 btn btn-outline-primary">Разблокировать</a>
+                    {% endif %}
+                {% endif %}
                 </div>
             </div>
         </div>

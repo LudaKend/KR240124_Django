@@ -36,10 +36,6 @@ class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         '''изменять клиента можно только автору'''
         self.object = super().get_object(queryset)
-        print(f'это self.object {self.object}')  # для отладки
-        # сначала надо проверить, если пользователь является модератором, то ему можно изменить 3 поля
-        user = self.request.user  # беру текущего юзера, который залогинился
-        print(f'это self.request.user {user}')  # для отладки
         if self.object.user_email != self.request.user:
             raise Http404('Изменения доступны только автору')
         return self.object
