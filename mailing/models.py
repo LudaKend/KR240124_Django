@@ -10,10 +10,12 @@ class Mailing(models.Model):
     mailing_text = models.TextField(verbose_name='Текст письма', **NULLABLE)
     user_email = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='email автора рассылки', **NULLABLE)
     time = models.TimeField(verbose_name='время отправки', **NULLABLE)
+    data_start = models.DateField(verbose_name='дата старта рассылки', **NULLABLE)
     period = models.ForeignKey('Period', on_delete=models.CASCADE, verbose_name='периодичность', **NULLABLE)
-    status = models.ForeignKey('StatusMailing', on_delete=models.CASCADE, verbose_name='статус', default=0)
+    status = models.ForeignKey('StatusMailing', on_delete=models.CASCADE, verbose_name='статус', default=1)
     data_create = models.DateField(verbose_name='дата создания', auto_now_add=True, **NULLABLE)
     data_change = models.DateField(verbose_name='дата изменения', auto_now=True, **NULLABLE)
+
 
     def __str__(self):
         '''строковое отображение обьекта'''

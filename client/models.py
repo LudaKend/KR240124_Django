@@ -12,6 +12,7 @@ class Client(models.Model):
     data_create = models.DateField(verbose_name='дата создания', auto_now_add=True, **NULLABLE)
     data_change = models.DateField(verbose_name='дата изменения', auto_now=True, **NULLABLE)
 
+
     def __str__(self):
         '''строковое отображение обьекта'''
         return f'{self.client_name}, {self.client_email}, {self.is_active}, {self.user_email}'
