@@ -5,18 +5,20 @@ from mailing.forms import MailingForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.http import Http404
-from mailing.utils import count_mailing, count_active_mailing, get_last_post
+from mailing.utils import count_mailing, count_active_mailing, get_last_post, count_uniq_clients
 
 def index_home_page(requests):
     quantity_mailing = count_mailing()
     quantity_active_mailing = count_active_mailing()
     last_post_list = get_last_post()
+    quantity_uniq_client = count_uniq_clients()
     print(last_post_list)
     context = {
         'name_page': 'Главная',
         'quantity_mailing': quantity_mailing,
         'quantity_active_mailing': quantity_active_mailing,
         'object_list': last_post_list,
+        'quantity_uniq_client': quantity_uniq_client,
     }
     return render(requests, 'mailing/home_page.html', context)
 
