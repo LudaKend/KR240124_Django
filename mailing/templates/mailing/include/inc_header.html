@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Сервис управления рассылками</h1>
+    <p class="lead">***************************************</p>
+</div>
+<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
+    <h1 class="display-8">{{name_page}}</h1>
+</div>
+{% if user.is_authenticated %}
+        <a>авторизованный пользователь</a>
+        {{ user.email }}
+        <a> (роль на проекте: </a>
+        {% if user.is_staff %}
+        <a>модератор)</a>
+        {% else %}
+        <a>спаммер)</a>
+        {% endif %}
+{% endif %}
+</body>
+</html>

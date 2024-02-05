@@ -24,7 +24,7 @@ class UserLoginView(LoginView):
     '''контроллер, чтобы залогиниться пользователю'''
     model = User
     form_class = UserLoginForm
-    extra_context = {'name_page': 'Вход пользователей'}
+    extra_context = {'name_page': 'Авторизация'}
 
 
 class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
