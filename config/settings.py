@@ -14,13 +14,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
-PASSWORD = os.getenv('FOR_POSTGRES')   #для доступа к БД Postgresql нужен пароль
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  #пароль для доступа к приложению почтового сервера
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR/'.env')
+FOR_POSTGRES_PASSWORD = os.getenv('FOR_POSTGRES_PASSWORD')   #пароль для доступа к БД Postgresql
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  #пароль для доступа к приложению почтового сервера
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -46,7 +45,8 @@ INSTALLED_APPS = [
     'users',
     'mailing',
     'blog',
-    'client'
+    'client',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'postgres',
         'HOST': '127.0.0.1',
         'PORT': 5432,
-        'PASSWORD': PASSWORD,
+        'PASSWORD': FOR_POSTGRES_PASSWORD,
     }
 }
 
@@ -154,3 +154,7 @@ EMAIL_USE_SSL = False
 #для получения писем об ошибках сайта - обратная связь
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CRONJOBS = [('*/5 * * * *', 'mailing.management.commands.auto_send.auto_send'),
+            ('*/5 * * * *', 'mailing.management.commands.check_cron.use_cron')]
+
