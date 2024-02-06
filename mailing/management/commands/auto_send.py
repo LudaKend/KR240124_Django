@@ -24,7 +24,7 @@ def auto_send():
     print()
     for item in mailing_list:
         # надо получить datatime отправки рассылки, зная data_start, time, period
-        print(f'данные из mailinga: {item.time, item.period, item.period_id, item.data_start}')   # для отладки
+        print(f'данные из mailinga: {item.id, item.time, item.period, item.period_id, item.data_start}')   # для отладки
         if item.period_id == 1 and item.data_start <= current_date:     #если рассылка ежедневная и дата старта настала
             mailing_datatime = datetime.combine(current_date, item.time)  # собираем datatime отправки
             print(f'полученный mailing_datatime ежедневной рассылки: {mailing_datatime}')         # для отладки
@@ -33,9 +33,14 @@ def auto_send():
                 client_list = Client.objects.filter(user_email=spammer_email)
                 print(f'client_list', client_list)  # для отладки
                 for client in client_list:
+                    print(f'информация для логов:\n{current_datatime}, {current_date}, {current_time}, '
+                          f'\n{min_datatime}, {max_datatime},'
+                          f'\n{item.id}, {item.time}, {item.period_id}, {item.data_start}')
                     try:
                         send_mail(subject=item.subject, message=item.mailing_text,
-                                      from_email=spammer_email, recipient_list=[client.client_email, ])
+                                      from_email=spammer_email, recipient_list=[client.client_email, ],
+                                  fail_silently=False,)
+                        print()
                     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
                         print(smtp_error)
             else:
@@ -57,6 +62,10 @@ def auto_send():
                     client_list = Client.objects.filter(user_email=spammer_email)
                     print(f'client_list', client_list)  # для отладки
                     for client in client_list:
+                        print(f'информация для логов:\n{current_datatime}, {current_date}, {current_time}, '
+                              f'\n{min_datatime}, {max_datatime},'
+                              f'\n{item.id}, {item.time}, {item.period_id}, {item.data_start}')
+
                         try:
                             send_mail(subject=item.subject, message=item.mailing_text,
                                           from_email=spammer_email, recipient_list=[client.client_email, ])
@@ -111,6 +120,9 @@ def auto_send():
                 client_list = Client.objects.filter(user_email=spammer_email)
                 print(f'client_list', client_list)        # для отладки
                 for client in client_list:
+                    print(f'информация для логов:\n{current_datatime}, {current_date}, {current_time}, '
+                          f'\n{min_datatime}, {max_datatime},'
+                          f'\n{item.id}, {item.time}, {item.period_id}, {item.data_start}')
                     try:
                         send_mail(subject=item.subject, message=item.mailing_text, from_email=spammer_email,
                                       recipient_list=[client.client_email, ])
@@ -120,3 +132,9 @@ def auto_send():
                 print('время отправки рассылки вне текущего интервала')        # для отладки
                 print()
 
+# def run_send_mail():
+#     try:
+#         send_mail(subject=item.subject, message=item.mailing_text, from_email=spammer_email,
+#                   recipient_list=[client.client_email, ])
+#     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
+#         print(smtp_error)

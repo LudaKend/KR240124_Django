@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'mailing',
     'blog',
     'client',
-    'django_crontab'
+    'django_crontab',
+    'history'
 ]
 
 MIDDLEWARE = [
@@ -158,6 +159,8 @@ EMAIL_USE_SSL = False
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-CRONJOBS = [('*/5 * * * *', 'mailing.management.commands.auto_send.auto_send'),
+CRON_LOGFILE = os.path.join(BASE_DIR, "cron.log")
+
+CRONJOBS = [('*/5 * * * *', 'mailing.management.commands.auto_send.auto_send', f'>> {CRON_LOGFILE} 2>&1'),
             ('*/5 * * * *', 'mailing.management.commands.check_cron.use_cron')]
 
