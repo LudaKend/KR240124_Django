@@ -5,6 +5,7 @@ from client.models import Client
 from django.core.mail import send_mail
 import datetime
 from datetime import datetime, timedelta
+from history.models import Log
 
 def auto_send():
     '''формирует список отправлений: выбирает записи рассылок со статусом 2 - в работе,и рассылает с адреса
@@ -36,6 +37,13 @@ def auto_send():
                     print(f'информация для логов:\n{current_datatime}, {current_date}, {current_time}, '
                           f'\n{min_datatime}, {max_datatime},'
                           f'\n{item.id}, {item.time}, {item.period_id}, {item.data_start}')
+                    mailing_log = Log.objects.create(current_datatime=current_datatime, current_date=current_date,
+                                                     current_time=current_time, min_datatime=min_datatime,
+                                                     max_datatime=max_datatime, mailing_id=item.id,
+                                                     mailing_time=item.time, mailing_period_id=item.period_id,
+                                                     mailing_data_start=item.data_start,
+                                                     mailing_datatime=mailing_datatime)
+                    mailing_log.save()
                     try:
                         send_mail(subject=item.subject, message=item.mailing_text,
                                       from_email=spammer_email, recipient_list=[client.client_email, ],
@@ -43,6 +51,8 @@ def auto_send():
                         print()
                     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
                         print(smtp_error)
+                        mailing_log.smtp_error = smtp_error
+                        mailing_log.save()
             else:
                 print('время отправки рассылки вне текущего интервала')   # для отладки
                 print()
@@ -65,15 +75,26 @@ def auto_send():
                         print(f'информация для логов:\n{current_datatime}, {current_date}, {current_time}, '
                               f'\n{min_datatime}, {max_datatime},'
                               f'\n{item.id}, {item.time}, {item.period_id}, {item.data_start}')
-
+                        mailing_log = Log.objects.create(current_datatime=current_datatime, current_date=current_date,
+                                                         current_time=current_time, min_datatime=min_datatime,
+                                                         max_datatime=max_datatime, mailing_id=item.id,
+                                                         mailing_time=item.time, mailing_period_id=item.period_id,
+                                                         mailing_data_start=item.data_start,
+                                                         mailing_datatime=mailing_datatime)
+                        mailing_log.save()
                         try:
                             send_mail(subject=item.subject, message=item.mailing_text,
                                           from_email=spammer_email, recipient_list=[client.client_email, ])
                         except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
                             print(smtp_error)
+                            mailing_log.smtp_error = smtp_error
+                            mailing_log.save()
                 else:
                     print('время отправки рассылки вне текущего интервала')      # для отладки
                     print()
+            else:
+                print('для еженедельной рассылки день недели не совпадает')  # для отладки
+                print()
 
         elif item.period_id == 3 and item.data_start <= current_date:  # если рассылка ежемесячная и дата старта настала
             current_month_year = datetime.today().strftime("%m.%Y")  #берем текущий месяц и год
@@ -123,11 +144,20 @@ def auto_send():
                     print(f'информация для логов:\n{current_datatime}, {current_date}, {current_time}, '
                           f'\n{min_datatime}, {max_datatime},'
                           f'\n{item.id}, {item.time}, {item.period_id}, {item.data_start}')
+                    mailing_log = Log.objects.create(current_datatime=current_datatime, current_date=current_date,
+                                                     current_time=current_time, min_datatime=min_datatime,
+                                                     max_datatime=max_datatime, mailing_id=item.id,
+                                                     mailing_time=item.time, mailing_period_id=item.period_id,
+                                                     mailing_data_start=item.data_start,
+                                                     mailing_datatime=mailing_datatime)
+                    mailing_log.save()
                     try:
                         send_mail(subject=item.subject, message=item.mailing_text, from_email=spammer_email,
                                       recipient_list=[client.client_email, ])
                     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
                         print(smtp_error)
+                        mailing_log.smtp_error = smtp_error
+                        mailing_log.save()
             else:
                 print('время отправки рассылки вне текущего интервала')        # для отладки
                 print()
