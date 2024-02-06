@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% include 'mailing/include/inc_header.html' %}
 </head>
 <body>
-<div class="pricing-header px-3 py-3 pt-md-1 pb-md-4 mx-auto text-center">
-    <h1 class="display-8">{{name_page}}</h1>
-</div>
 <div class="container">
     <div class="row text-start">
         <div class="col-lg-6 col-md-6 col-sm-12">
             <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Авторизация</h4>
-                </div>
                 <div class="card-body">
                     <form method="POST">
                         {% csrf_token %}

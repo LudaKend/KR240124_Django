@@ -3,18 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    {% include 'mailing/include/inc_header.html' %}
 </head>
 <body>
+
 <form method="POST">
 <div class="container">
     <div class="col-6">
-        <div class="card-header">
-            <h3 class="card-title">Информация о рассылке</h3>
-            {% if user.is_authenticated %}
-            <a>текущий пользователь</a>
-            {{ user.email }}
-            {% endif %}
-        </div>
         {% csrf_token %}
         <div class="card-body">
             <div class="mb-3">
@@ -33,9 +28,6 @@
             <label for="mailing_text">Текст рассылки</label>
             <textarea type="text" name="mailing_text" class="form-control" id="mailing_text"
                           required>{{ object.mailing_text }}</textarea>
-            <label for="user_email">email автора рассылки</label>
-            <textarea type="text" name="user_email" class="form-control" id="user_email"
-                          required>{{ object.user_email }}</textarea>
             <p></p>
             <button type = 'submit'>Сохранить</button>
             <a href="{% url 'mailing:route_mailing_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>

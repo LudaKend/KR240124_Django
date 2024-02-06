@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from users.models import User
 from django.contrib.auth.views import LoginView
 from users.forms import UserRegisterForm, UserLoginForm, UserForm
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class RegisterView(CreateView):
@@ -24,7 +24,7 @@ class UserLoginView(LoginView):
     '''контроллер, чтобы залогиниться пользователю'''
     model = User
     form_class = UserLoginForm
-    extra_context = {'name_page': 'Вход пользователей'}
+    extra_context = {'name_page': 'Авторизация'}
 
 
 class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -55,3 +55,13 @@ class UserDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     extra_context = {'name_page': 'Удаление пользователя-спаммера'}
     success_url = reverse_lazy('users:route_users_list')
     permission_required = 'users.add_user'
+
+def index_deactivate(requests, pk):
+    '''деактивация пользователя'''
+    temp_user = get_object_or_404(User, pk=pk)
+    if temp_user.is_active:
+        temp_user.is_active = False
+    else:
+        temp_user.is_active = True
+    temp_user.save()
+    return redirect(reverse('users:route_users_list'))
