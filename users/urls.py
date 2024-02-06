@@ -2,7 +2,7 @@ from django.contrib.auth.views import LogoutView
 from django.urls import path
 from users.apps import UsersConfig
 from users.views import RegisterView, UserLoginView, UserListView, UserDetailView, UserUpdateView, UserDeleteView
-from users.views import index_deactivate
+from users.views import index_deactivate, index_verify
 
 app_name = UsersConfig.name
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('update/<int:pk>/', UserUpdateView.as_view(), name='route_users_update'),
     path('delete/<int:pk>/', UserDeleteView.as_view(), name='route_users_delete'),
     path('deactivate/<int:pk>/', index_deactivate, name='route_deactivate'),
+    path('verify/', index_verify, name='route_verify'),
 ]

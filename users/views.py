@@ -5,15 +5,32 @@ from django.contrib.auth.views import LoginView
 from users.forms import UserRegisterForm, UserLoginForm, UserForm
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+import random
+from django.core.mail import send_mail
+from django.conf import settings
+import smtplib
 
 class RegisterView(CreateView):
     '''контроллер для регистрации пользователей'''
     model = User
     form_class = UserRegisterForm
     extra_context = {'name_page': 'Регистрация пользователей'}
-    success_url = reverse_lazy('users:route_login_users')
+    #success_url = reverse_lazy('users:route_login_users')
+    success_url = reverse_lazy('users:route_verify')
 
     def form_valid(self, form):
+        self.object = form.save()
+        # генерируем ключ для верификации и отправляем по указанному адресу пользователю
+        verification_key = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+        # print(f'ключ: {verification_key}')  # для проверки
+        try:
+            send_mail('Ключ для подтверждения аккаунта от магазина продуктов', verification_key,
+                      settings.EMAIL_HOST_USER, [self.object.email])
+        except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError, smtplib.SMTPNotSupportedError) as smtp_error:
+            print(smtp_error)
+        # нужно ключ записать в БД, и пользователя пока сделать неактивным
+        self.object.verification_key = verification_key
+        self.object.is_active = False
         self.object = form.save()
         # нужно при регистрации пользователю присвоить группу пономочий spammer
         self.object.groups.add(1)  # в таблице users_user_group есть только id, поэтому так
@@ -65,3 +82,20 @@ def index_deactivate(requests, pk):
         temp_user.is_active = True
     temp_user.save()
     return redirect(reverse('users:route_users_list'))
+
+def index_verify(requests):
+    '''контроллер для ввода ключа подтверждения'''
+    if requests.method == 'POST':
+        email = requests.POST.get('email') #получить значение поля Почта c экрана
+        verify = requests.POST.get('verification_key') #получить значение Ключа с экрана
+        #здесь выбираем пользователя с указанным email в БД
+        users_list = User.objects.all()
+        for user in users_list:
+            #проверяю, чтобы ключ сходился
+            if email == user.email and verify == user.verification_key:
+                print(user)
+                user.is_active = True
+                user.save()
+                print('пользователь успешно активирован, можно переходить к авторизации')
+                #return redirect('redirect-success/')
+    return render(requests, 'users/verify.html') #это страница на которой работает этот контроллер

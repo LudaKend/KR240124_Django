@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'mailing/include/inc_header.html' %}
+</head>
+<body>
+<div class="container">
+    <div class="row text-start">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Верификация</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="email">Почта</label>
+                            <input type="text" name="email" class="form-control" id="email" placeholder="Ваш email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="verification_key">Введите код подтверждения</label>
+                            <input type="text" name="verification_key" class="form-control" id="verification_key" placeholder="Код подтверждения" required>
+                        </div>
+                    <input type="submit" value="Отправить">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
