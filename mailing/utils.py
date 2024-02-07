@@ -1,6 +1,9 @@
 from mailing.models import Mailing
 from blog.models import Post
 from client.models import Client
+from django.conf import settings
+from django.core.cache import cache
+
 
 def count_mailing():
     '''для подсчета количества рассылок'''
@@ -32,6 +35,19 @@ def get_last_post():
     last_post = Post.objects.filter(id__in=last_post_id)
     print(last_post)                 # для отладки
     return last_post
+
+def get_last_post_from_cache():
+    '''выбирает 3 последние статьи блога из кэша'''
+    if settings.CACHE_ENABLED:           #если кеш включен
+        key = f'last_post'
+        last_post = cache.get(key)
+        if last_post is None:            #если кеш пуст
+            last_post = get_last_post()
+            cache.set(key, last_post)   #заполняем его из БД
+    else:
+        last_post = get_last_post()     #если кеш выключен,то берем из БД
+    return last_post
+
 
 def count_uniq_clients():
     '''считает количество уникальных клиентов сервиса'''
