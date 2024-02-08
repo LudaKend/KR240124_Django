@@ -123,8 +123,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_TZ = True
-
+#USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -144,7 +144,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 #для вывода в консоль
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST ='smtp.mail.ru'
 EMAIL_PORT = 2525
@@ -161,8 +161,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CRON_LOGFILE = os.path.join(BASE_DIR, "cron.log")
 
-CRONJOBS = [('*/5 * * * *', 'mailing.management.commands.auto_send.auto_send', f'>> {CRON_LOGFILE} 2>&1'),
-            ('*/5 * * * *', 'mailing.management.commands.check_cron.use_cron')]
+CRONJOBS = [('0 * * * *', 'mailing.management.commands.auto_send.auto_send', f'>> {CRON_LOGFILE} 2>&1')]
+            #('*/5 * * * *', 'mailing.management.commands.check_cron.use_cron')]
 
 #для подключения нереляционной БД Redis для хранения кэша
 CACHE_ENABLED = os.getenv('CACHE_ENABLED')
