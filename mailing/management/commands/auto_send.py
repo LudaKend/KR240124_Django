@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 import datetime
 from datetime import datetime, timedelta
 from history.models import Log
+from django.conf import settings
 
 def auto_send():
     '''формирует список отправлений: выбирает записи рассылок со статусом 2 - в работе,и рассылает с адреса
@@ -31,6 +32,7 @@ def auto_send():
             print(f'полученный mailing_datatime ежедневной рассылки: {mailing_datatime}')         # для отладки
             if min_datatime < mailing_datatime <= max_datatime:
                 spammer_email = item.user_email
+                print(spammer_email)
                 client_list = Client.objects.filter(user_email=spammer_email)
                 print(f'client_list', client_list)  # для отладки
                 for client in client_list:
@@ -46,7 +48,8 @@ def auto_send():
                     mailing_log.save()
                     try:
                         send_mail(subject=item.subject, message=item.mailing_text,
-                                      from_email=spammer_email, recipient_list=[client.client_email, ],
+                                      #from_email=spammer_email.email,
+                                  from_email=settings.EMAIL_HOST_USER, recipient_list=[client.client_email, ],
                                   fail_silently=False,)
                         print()
                     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
@@ -84,7 +87,7 @@ def auto_send():
                         mailing_log.save()
                         try:
                             send_mail(subject=item.subject, message=item.mailing_text,
-                                          from_email=spammer_email, recipient_list=[client.client_email, ])
+                                      from_email=settings.EMAIL_HOST_USER, recipient_list=[client.client_email, ])
                         except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
                             print(smtp_error)
                             mailing_log.smtp_error = smtp_error
@@ -152,8 +155,8 @@ def auto_send():
                                                      mailing_datatime=mailing_datatime)
                     mailing_log.save()
                     try:
-                        send_mail(subject=item.subject, message=item.mailing_text, from_email=spammer_email,
-                                      recipient_list=[client.client_email, ])
+                        send_mail(subject=item.subject, message=item.mailing_text, from_email=settings.EMAIL_HOST_USER,
+                                  recipient_list=[client.client_email, ])
                     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
                         print(smtp_error)
                         mailing_log.smtp_error = smtp_error
@@ -162,9 +165,4 @@ def auto_send():
                 print('время отправки рассылки вне текущего интервала')        # для отладки
                 print()
 
-# def run_send_mail():
-#     try:
-#         send_mail(subject=item.subject, message=item.mailing_text, from_email=spammer_email,
-#                   recipient_list=[client.client_email, ])
-#     except (smtplib.SMTPRecipientsRefused, smtplib.SMTPDataError) as smtp_error:
-#         print(smtp_error)
+
