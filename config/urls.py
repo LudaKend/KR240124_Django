@@ -23,4 +23,5 @@ urlpatterns = [
     path('users/', include('users.urls', namespace='users')),
     path('client/', include('client.urls', namespace='client')),
     path('blog/', include('blog.urls', namespace='blog')),
+    path('history/', include('history.urls', namespace='history')),
 ]

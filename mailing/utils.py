@@ -24,16 +24,16 @@ def count_active_mailing():
 def get_last_post():
     '''выбирает 3 последние статьи блога'''
     post_list = Post.objects.filter(is_published=True)
-    print(post_list)                 # для отладки
+    #print(post_list)                 # для отладки
     post_id_list = []                #соберем список id опубликованных статей
     for item in post_list:
         post_id_list.append(item.id)
-    print(post_id_list)
+    #print(post_id_list)
     post_id_list.sort(reverse=True)  #сортируем по убыванию
-    print(post_id_list)              # для отладки
+    #print(post_id_list)              # для отладки
     last_post_id = post_id_list[:3]  #нужны 3 последние id
     last_post = Post.objects.filter(id__in=last_post_id)
-    print(last_post)                 # для отладки
+    #print(last_post)                 # для отладки
     return last_post
 
 def get_last_post_from_cache():
