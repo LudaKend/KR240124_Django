@@ -12,7 +12,7 @@ def index_home_page(requests):
     quantity_active_mailing = count_active_mailing()
     last_post_list = get_last_post()
     quantity_uniq_client = count_uniq_clients()
-    print(last_post_list)
+    #print(last_post_list)
     context = {
         'name_page': 'Главная',
         'quantity_mailing': quantity_mailing,

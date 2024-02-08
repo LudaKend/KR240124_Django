@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% include 'mailing/include/inc_header.html' %}
+</head>
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <nav class="ms-5">
+        <a class="p-2 btn btn-outline-primary" href="{% url 'mailing:route_mailing_list' %}">Назад, к списку рассылок</a>
+    </nav>
+
+</div>
+<div class="card mb-4 box-shadow" >
+
+    {% for object in object_list %}
+    <div class="row text-center">
+        <div class="col-8">
+            <div class="card mb-4 box-shadow" >
+                <div class="card-header" height="300">
+                    <h4 class="my-0 font-weight-normal">ID отправления: {{object.id }}</h4>
+                    <h4 class="my-0 font-weight-normal">Текущие дата и время на моменты отправления письма {{object.current_datatime }}</h4>
+                </div>
+                <div class="card-body">
+                    <div class="card-header" height="300">
+                    <h4 class="my-0 font-weight-normal">ID рассылки: {{object.mailing_id }}</h4>
+                    <h4 class="my-0 font-weight-normal">Время из рассылки: {{object.mailing_time }}</h4>
+                    <h4 class="my-0 font-weight-normal">Дата старта рассылки: {{object.mailing_data_start }}</h4>
+                    <h4 class="my-0 font-weight-normal">Расчетные дата и время отправления письма: {{object.mailing_datatime }}</h4>
+                    <h4 class="my-0 font-weight-normal">Дата создания лога: {{object.data_create }}</h4>
+                    <h4 class="my-0 font-weight-normal">Ошибка отправки: {{object.smtp_error }}</h4>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>
