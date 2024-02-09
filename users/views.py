@@ -9,6 +9,7 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 import smtplib
+from users.utils import find_spammer_group
 
 class RegisterView(CreateView):
     '''контроллер для регистрации пользователей'''
@@ -33,8 +34,12 @@ class RegisterView(CreateView):
         self.object.is_active = False
         self.object = form.save()
         # нужно при регистрации пользователю присвоить группу пономочий spammer
-        self.object.groups.add(1)  # в таблице users_user_group есть только id, поэтому так
+        spammer_group = find_spammer_group()
+        #print(f'spammer_group  {spammer_group}')   #для отладки
+        self.object.groups.add(spammer_group)  # в таблице users_user_group есть только id, поэтому так
         return super().form_valid(form)
+
+
 
 
 class UserLoginView(LoginView):
