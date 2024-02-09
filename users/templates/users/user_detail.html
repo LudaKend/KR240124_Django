@@ -12,14 +12,23 @@
     </nav>
     <div class="card-body">
         <div class="mb-3">
-            <label for="email">email пользователя</label>
-            <textarea type="text" name="email" class="form-control" id="email" required>{{ object.email }} </textarea>
-            <label for="company">Компания пользователя</label>
-            <textarea type="text" name="company" class="form-control" id="company" required>{{ object.company }} </textarea>
-            <label for="is_active">Статус пользователя</label>
-            <textarea type="text" name="is_active" class="form-control" id="is_active" required>{{ object.is_active }} </textarea>
-            <label for="is_active">Телефон пользователя</label>
-            <textarea type="text" name="phone" class="form-control" id="phone" required>{{ object.phone }} </textarea>
+            <p></p>
+            <label>email пользователя: </label>
+            <a type="text">{{ object.email }} </a>
+            <p></p>
+            <label >Компания пользователя: </label>
+            <a type="text" >{{ object.company }} </a>
+            <p></p>
+            <label>Статус пользователя: </label>
+            {% if object.is_active == True %}
+            <a>Актуален </a>
+            {% else %}
+            <a>Не актуален </a>
+            {% endif %}
+            <p></p>
+            <label>Телефон пользователя: </label>
+            <a type="phone" >{{ object.phone }} </a>
+            <p></p>
         </div>
         <a href="{% url 'users:route_users_update' object.pk %}" class="p-2 btn btn-outline-danger">Изменить</a>
         <a href="{% url 'users:route_users_delete' object.pk %}" class="p-2 btn btn-outline-danger">Удалить</a>
