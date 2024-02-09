@@ -16,11 +16,15 @@
                 <textarea type="text" name="client_name" class="form-control" id="client_name" required>{{ object.client_name }} </textarea>
             </div>
             <label for="client_email">email клиента</label>
-            <textarea type="email" name="client_email" class="form-control" id="client_email"
-                          required>{{ object.client_email }}</textarea>
-            <label for="is_active">активирован</label>
-            <textarea type="bool" name="is_active" class="form-control" id="is_active"
-                          required>{{ object.is_active }}</textarea>
+                <input type="email" name="client_email" class="form-control" id="client_email"
+                          required>{{ object.client_email }}
+            <p></p>
+            <label for="is_active">Статус: False-не активен,True-активный </label>
+            {#<select name="select">#}
+            {#<option value="value1" selected>Актуален</option>#}
+            {#<option value="value2" >Не актуален</option>#}
+            {#</select>#}
+            <input type="text" name="is_active" min="0" max="1" class="form-control" id="is_active" required>{{ object.is_active }}
             <p></p>
             <button type = 'submit'>Сохранить</button>
             <a href="{% url 'client:route_client_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
