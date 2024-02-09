@@ -17,17 +17,21 @@
                 <textarea type="text" name="subject" class="form-control" id="subject" required>{{ object.subject }} </textarea>
             </div>
             <label for="time">Время рассылки</label>
-            <textarea type="text" name="time" class="form-control" id="time"
-                          required>{{ object.time }}</textarea>
-            <label for="period">Периодичность рассылки</label>
-            <textarea type="text" name="period" class="form-control" id="period"
-                          required>{{ object.period }}</textarea>
+            <input type="time" name="time" class="form-control" id="time"
+                          required>{{ object.time }}
+            <p></p>
+            <label for="period">Периодичность рассылки:1-раз в день,2-раз в неделю,3-раз в месяц</label>
+            <input type="number" name="period" min="1" max="3" class="form-control" id="period"
+                          required>{{ object.period }}
+            <p></p>
             <label for="data_start">Дата старта рассылки</label>
-            <textarea type="text" name="data_start" class="form-control" id="data_start"
-                          required>{{ object.data_start }}</textarea>
-            <label for="status">Статус рассылки</label>
-            <textarea type="text" name="status" class="form-control" id="status"
-                          required>{{ object.status }}</textarea>
+            <input type="date" name="data_start" class="form-control" id="data_start"
+                          required>{{ object.data_start }}
+            <p></p>
+            <label for="status">Статус рассылки:1-создание,2-в работе,3-завершена</label>
+            <input type="number" name="status" min="1" max="3" class="form-control" id="status"
+                          required>{{ object.status }}
+            <p></p>
             <label for="mailing_text">Текст рассылки</label>
             <textarea type="text" name="mailing_text" class="form-control" id="mailing_text"
                           required>{{ object.mailing_text }}</textarea>
