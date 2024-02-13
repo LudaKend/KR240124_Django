@@ -11,7 +11,7 @@
     <div class="col-6">
         {% csrf_token %}
         <div class="card-body">
-            <div class="mb-3">
+            <!--<div class="mb-3">
                 <label for="client_name">Имя клиента</label>
                 <textarea type="text" name="client_name" class="form-control" id="client_name" required>{{ object.client_name }} </textarea>
             </div>
@@ -25,7 +25,8 @@
             {#<option value="value2" >Не актуален</option>#}
             {#</select>#}
             <input type="text" name="is_active" min="0" max="1" class="form-control" id="is_active" required>{{ object.is_active }}
-            <p></p>
+            <p></p>-->
+            {{ form.as_p }}
             <button type = 'submit'>Сохранить</button>
             <a href="{% url 'client:route_client_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
         </div>

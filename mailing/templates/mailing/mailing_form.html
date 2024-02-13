@@ -12,7 +12,7 @@
     <div class="col-6">
         {% csrf_token %}
         <div class="card-body">
-            <div class="mb-3">
+            <!--<div class="mb-3">
                 <label for="subject">Тема рассылки</label>
                 <textarea type="text" name="subject" class="form-control" id="subject" required>{{ object.subject }} </textarea>
             </div>
@@ -35,7 +35,8 @@
             <label for="mailing_text">Текст рассылки</label>
             <textarea type="text" name="mailing_text" class="form-control" id="mailing_text"
                           required>{{ object.mailing_text }}</textarea>
-            <p></p>
+            <p></p>-->
+            {{ form.as_p }}
             <button type = 'submit'>Сохранить</button>
             <a href="{% url 'mailing:route_mailing_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
         </div>

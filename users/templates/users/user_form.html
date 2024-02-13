@@ -14,7 +14,7 @@
         </div>
         {% csrf_token %}
         <div class="card-body">
-            <div class="mb-3">
+            <!--<div class="mb-3">
                 <label for="email">email пользователя</label>
                 <textarea type="text" name="email" class="form-control" id="email" required>{{ object.email }} </textarea>
             </div>
@@ -27,7 +27,8 @@
             <label for="is_active">активирован</label>
             <textarea type="bool" name="is_active" class="form-control" id="is_active"
                           required>{{ object.is_active }}</textarea>
-            <p></p>
+            <p></p>-->
+            {{ form.as_p }}
             <button type = 'submit'>Сохранить</button>
             <a href="{% url 'users:route_users_list' %}" class="p-2 btn btn-outline-primary">Отмена</a>
         </div>
