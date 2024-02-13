@@ -12,7 +12,37 @@
     </nav>
 
 </div>
-<div class="card mb-4 box-shadow" >
+<table class="table">
+            <thead>
+            <tr>
+                <th>ID отправления</th>
+                <th>Текущие дата и время на моменты отправления письма</th>
+                <th>ID рассылки</th>
+                <th>Время из рассылки</th>
+                <th>Дата старта рассылки</th>
+                <th>Расчетные дата и время отправления письма</th>
+                <th>Дата создания лога</th>
+                <th>Ошибка отправки</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td>{{ object.id }}</td>
+                    <td>{{ object.current_datatime }}</td>
+                    <td>{{ object.mailing_id }}</td>
+                    <td>{{ object.mailing_time }}</td>
+                    <td>{{ object.mailing_data_start }}</td>
+                    <td>{{ object.mailing_datatime }}</td>
+                    <td>{{ object.data_create }}</td>
+                    <td>{{ object.smtp_error }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+</table>
+
+
+<!--<div class="card mb-4 box-shadow" >
 
     {% for object in object_list %}
     <div class="row text-center">
@@ -36,6 +66,6 @@
         </div>
     </div>
     {% endfor %}
-</div>
+</div>-->
 </body>
 </html>
